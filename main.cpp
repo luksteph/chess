@@ -12,7 +12,7 @@ struct moveCommand {
 
 moveCommand parseMoveCommand(std::string command, char board[8][8]);
 void modifyBoard(moveCommand move, bool side, char board[8][8]);
-int pawnSquare (char file, char board[8][8]);
+int pawnSquare (int file, char board[8][8]);
 void printBoard(char board[8][8]);
 
 int main() {
@@ -21,16 +21,16 @@ int main() {
     std::string command;
     bool checkmate = false, side = 1; // side 0 is white.
 
-    char board[8][8] = {{'p', ' ', ' ', ' ', ' ', ' ', ' ', ' ', },
+    char board[8][8] = {{' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', },
             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', },
              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', },
              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', },
              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', },
              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', },
              {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', },
-             {' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ', }};
+             {' ', 'p', ' ', ' ', ' ', ' ', ' ', ' ', }};
     /* enumerate commands */
-
+    printBoard(board);
 
     while (!checkmate) {
     if (side) std::cout << "White to move: ";
@@ -49,7 +49,8 @@ int main() {
 
 moveCommand parseMoveCommand(std::string command, char board[8][8]) {
     moveCommand moveCommand;
-    if (command.at(0) <= 104 && command.at(0) >= 97) {
+    if (command.at(0) <= 'h' && command.at(0) >= 'a') {
+        std::cout << "test flag 1";
         moveCommand.toLocation.first = command.at(0);
         moveCommand.piece.type = 'P';
         moveCommand.piece.currentLocation.first = moveCommand.toLocation.first;
@@ -70,7 +71,8 @@ moveCommand parseMoveCommand(std::string command, char board[8][8]) {
     return moveCommand;
 }
 
-int pawnSquare (char file, char board[8][8]) {
+int pawnSquare (int file, char board[8][8]) {
+    std::cout << "\n" << file << std::endl;
     for (int i(0); i < 8; i++) {
         if (board[file][i] == 'p') return i;
     }
@@ -78,6 +80,12 @@ int pawnSquare (char file, char board[8][8]) {
 }
 
 void modifyBoard(moveCommand move, bool side, char board[8][8]) {
+    std::cout << "\ntolocation, first (letter, aka col): " << move.toLocation.first << std::endl;
+    std::cout << "tolocation, second (number aka row): "<< move.toLocation.second << std::endl;
+    std::cout << "currlocation, first (letter, aka col): "<< move.piece.currentLocation.first << std::endl;
+    std::cout << "currlocation, second (number, aka row): "<< move.piece.currentLocation.second << std::endl;
+    std::cout << "piece type: "<< move.piece.type << std::endl;
+
     board[move.piece.currentLocation.first-97][move.piece.currentLocation.second] = ' ';
     board[move.toLocation.first][move.toLocation.second] = move.piece.type;
 }
@@ -98,5 +106,5 @@ void printBoard(char board[8][8]) {
 }
 
 bool isValidMove() {
-
+    return 0;
 }
